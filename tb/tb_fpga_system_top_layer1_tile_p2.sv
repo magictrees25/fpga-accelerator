@@ -1,0 +1,6 @@
+`timescale 1ns / 1ps
+// Simulation Top. Also add tb_layer1_p2_common.sv to Simulation Sources.
+module tb_fpga_system_top_layer1_tile_p2;
+  tb_layer1_p2_common #(.REGION_H(8),.REGION_W(8),.REGION_N(8),.WRITE_CSV(0)) u_test ();
+endmodule
+

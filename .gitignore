@@ -1,0 +1,49 @@
+# Vivado generated build, simulation and device state (keep .xpr/.srcs).
+.Xil/
+*.cache/
+*.runs/
+*.sim/
+*.hw/
+*.ip_user_files/
+*.gen/
+*.ip_cache/
+xsim.dir/
+
+# Waveforms, checkpoints, implementation products and tool logs.
+*.wdb
+*.vcd
+*.fst
+*.dcp
+*.bit
+*.bin
+*.ltx
+*.jou
+*.log
+*.str
+*.pb
+*.rpx
+*.backup.*
+vivado_pid*
+hs_err_pid*
+
+# Python/editor/OS temporary files.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.vs/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.tmp
+*~
+
+# Local secrets/configuration.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
