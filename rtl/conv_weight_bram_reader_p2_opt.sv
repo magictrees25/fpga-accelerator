@@ -31,7 +31,7 @@ module conv_weight_bram_reader_p2_opt #(
     assign bank_wr_addr = wr_addr >> 1;
     assign request_legal = (n_base == 0) && !fetch_k_base[0] &&
                            (int'($unsigned(fetch_k_base)) < K_LEN-1);
-    assign pair_accept = rst_n && pair_req_en && request_legal && !wr_en;
+    assign pair_accept = rst_n && pair_req_en && !wr_en;
 
     for (genvar p=0; p<2; p=p+1) begin : gen_bank
         assign bank_rd_addr[p] = fetch_k_base >> 1;
