@@ -44,7 +44,7 @@ module conv_accelerator_top_p2_opt
     .wr_en(fmap_wr_en),.wr_addr(fmap_wr_addr),.wr_data(fmap_wr_data),
     .act_pair_packed(act_pair_packed),.act_rsp_valid(act_rsp_valid)
   );
-  conv_weight_bram_reader_p2 #(.ADDR_WIDTH(ADDR_WIDTH)) u_weight_reader (
+  conv_weight_bram_reader_p2_opt #(.ADDR_WIDTH(ADDR_WIDTH)) u_weight_reader (  //conv_weight_bram_reader_p2 #(.ADDR_WIDTH(ADDR_WIDTH)) u_weight_reader (
     .clk(clk),.rst_n(rst_n),.n_base(n_base),
     .pair_req_en(pair_req_en),.fetch_k_base(fetch_k_base),
     .wr_en(weight_wr_en),.wr_addr(weight_wr_addr),.wr_data(weight_wr_data),
