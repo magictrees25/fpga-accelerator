@@ -34,7 +34,7 @@ module tb_conv_bram_reader_p4_1x1;
     function automatic integer golden_value(
         input integer y, x, c, epoch
     );
-        // Covers positive and negative INT8 values; differs by epoch.
+        // Covers positive and negative  INT8 values; differs by epoch.
         return ((17*y + 11*x + 7*c + 37*epoch) % 255) - 127;
     endfunction
 
