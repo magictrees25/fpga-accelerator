@@ -109,5 +109,5 @@ module conv_bram_reader_p4_1x1 #(
                        m_addr, fetch_k_base);
         end
     end
-    //   synthesis translate_on
+    // synthesis translate_on
 endmodule
