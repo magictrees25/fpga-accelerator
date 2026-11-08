@@ -1,14 +1,14 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
-| Date         : Sun Nov  8 21:06:04 2026
+| Date         : Sun Nov  8 21:08:12 2026
 | Host         : DESKTOP-HIL0EI7 running 64-bit major release  (build 9200)
-| Command      : report_utilization -hierarchical -file D:/2026PRJ/fpga-ai-accelerator-main/fpga-ai-accelerator-main/reports/P5/utilization_hier_p5_synth.rpt
+| Command      : report_utilization -hierarchical -file D:/2026PRJ/fpga-ai-accelerator-main/fpga-ai-accelerator-main/reports/P5/utilization_hier_p5_impl.rpt
 | Design       : fpga_system_top_p5_multimode
 | Device       : xc7a100tcsg324-1
 | Speed File   : -1
-| Design State : Synthesized
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Design State : Routed
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Utilization Design Information
 
@@ -22,26 +22,26 @@ Table of Contents
 +------------------------------------+------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
 |              Instance              |               Module               | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------------------+------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
-| fpga_system_top_p5_multimode       |                              (top) |       7943 |       7451 |     492 |    0 | 4612 |     12 |      2 |         64 |
+| fpga_system_top_p5_multimode       |                              (top) |       7586 |       7094 |     492 |    0 | 4612 |     12 |      2 |         64 |
 |   (fpga_system_top_p5_multimode)   |                              (top) |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
-|   u_compute                        |  conv_accelerator_top_p5_multimode |       7864 |       7384 |     480 |    0 | 4600 |      8 |      2 |         64 |
+|   u_compute                        |  conv_accelerator_top_p5_multimode |       7507 |       7027 |     480 |    0 | 4600 |      8 |      2 |         64 |
 |     (u_compute)                    |  conv_accelerator_top_p5_multimode |          0 |          0 |       0 |    0 |    2 |      0 |      0 |          0 |
-|     u_act_1x1                      |            conv_bram_reader_p4_1x1 |          5 |          5 |       0 |    0 |    1 |      0 |      2 |          0 |
+|     u_act_1x1                      |            conv_bram_reader_p4_1x1 |          4 |          4 |       0 |    0 |    1 |      0 |      2 |          0 |
 |       (u_act_1x1)                  |            conv_bram_reader_p4_1x1 |          0 |          0 |       0 |    0 |    1 |      0 |      0 |          0 |
 |       gen_act_bank[0].u_mem        |     sync_fmap_bram__parameterized0 |          3 |          3 |       0 |    0 |    0 |      0 |      1 |          0 |
 |       gen_act_bank[1].u_mem        |  sync_fmap_bram__parameterized0_67 |          2 |          2 |       0 |    0 |    0 |      0 |      1 |          0 |
-|     u_act_s1                       |                conv_bram_reader_p3 |        660 |        180 |     480 |    0 |   45 |      2 |      0 |          0 |
+|     u_act_s1                       |                conv_bram_reader_p3 |        655 |        175 |     480 |    0 |   45 |      2 |      0 |          0 |
 |       (u_act_s1)                   |                conv_bram_reader_p3 |         21 |         21 |       0 |    0 |   28 |      0 |      0 |          0 |
 |       gen_act_bank[0].u_mem        |                     sync_fmap_bram |         11 |         11 |       0 |    0 |    0 |      1 |      0 |          0 |
 |       gen_act_bank[1].u_mem        |                  sync_fmap_bram_66 |         11 |         11 |       0 |    0 |    0 |      1 |      0 |          0 |
-|       u_line_buffer                |     conv_activation_line_buffer_p3 |        617 |        137 |     480 |    0 |   17 |      0 |      0 |          0 |
-|     u_act_s2                       |          conv_bram_reader_p4_3x3s2 |          7 |          7 |       0 |    0 |    1 |      2 |      0 |          0 |
+|       u_line_buffer                |     conv_activation_line_buffer_p3 |        613 |        133 |     480 |    0 |   17 |      0 |      0 |          0 |
+|     u_act_s2                       |          conv_bram_reader_p4_3x3s2 |          6 |          6 |       0 |    0 |    1 |      2 |      0 |          0 |
 |       (u_act_s2)                   |          conv_bram_reader_p4_3x3s2 |          4 |          4 |       0 |    0 |    1 |      0 |      0 |          0 |
 |       gen_bank[0].u_mem            |     sync_fmap_bram__parameterized1 |          2 |          2 |       0 |    0 |    0 |      1 |      0 |          0 |
 |       gen_bank[1].u_mem            |  sync_fmap_bram__parameterized1_65 |          1 |          1 |       0 |    0 |    0 |      1 |      0 |          0 |
-|     u_ctrl                         |          gemm_mn_controller_mem_p2 |       7176 |       7176 |       0 |    0 | 4549 |      0 |      0 |         64 |
-|       (u_ctrl)                     |          gemm_mn_controller_mem_p2 |        231 |        231 |       0 |    0 |   45 |      0 |      0 |          0 |
-|       u_array                      |                  systolic_array_p2 |       6334 |       6334 |       0 |    0 | 4224 |      0 |      0 |         64 |
+|     u_ctrl                         |          gemm_mn_controller_mem_p2 |       6828 |       6828 |       0 |    0 | 4549 |      0 |      0 |         64 |
+|       (u_ctrl)                     |          gemm_mn_controller_mem_p2 |        229 |        229 |       0 |    0 |   45 |      0 |      0 |          0 |
+|       u_array                      |                  systolic_array_p2 |       6109 |       6109 |       0 |    0 | 4224 |      0 |      0 |         64 |
 |         (u_array)                  |                  systolic_array_p2 |        941 |        941 |       0 |    0 |  448 |      0 |      0 |          0 |
 |         gen_row[0].gen_col[0].u_pe |                           mac_unit |         78 |         78 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[0].gen_col[1].u_pe |                         mac_unit_2 |         78 |         78 |       0 |    0 |   57 |      0 |      0 |          1 |
@@ -51,14 +51,14 @@ Table of Contents
 |         gen_row[0].gen_col[5].u_pe |                         mac_unit_6 |         78 |         78 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[0].gen_col[6].u_pe |                         mac_unit_7 |         78 |         78 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[0].gen_col[7].u_pe |                         mac_unit_8 |         74 |         74 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[0].u_pe |                         mac_unit_9 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[1].u_pe |                        mac_unit_10 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[2].u_pe |                        mac_unit_11 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[3].u_pe |                        mac_unit_12 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[4].u_pe |                        mac_unit_13 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[5].u_pe |                        mac_unit_14 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[6].u_pe |                        mac_unit_15 |        134 |        134 |       0 |    0 |   57 |      0 |      0 |          1 |
-|         gen_row[1].gen_col[7].u_pe |                        mac_unit_16 |        130 |        130 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[0].u_pe |                         mac_unit_9 |        107 |        107 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[1].u_pe |                        mac_unit_10 |        107 |        107 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[2].u_pe |                        mac_unit_11 |        107 |        107 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[3].u_pe |                        mac_unit_12 |        107 |        107 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[4].u_pe |                        mac_unit_13 |        109 |        109 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[5].u_pe |                        mac_unit_14 |        108 |        108 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[6].u_pe |                        mac_unit_15 |        110 |        110 |       0 |    0 |   57 |      0 |      0 |          1 |
+|         gen_row[1].gen_col[7].u_pe |                        mac_unit_16 |        104 |        104 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[2].gen_col[0].u_pe |                        mac_unit_17 |         77 |         77 |       0 |    0 |   65 |      0 |      0 |          1 |
 |         gen_row[2].gen_col[1].u_pe |                        mac_unit_18 |         77 |         77 |       0 |    0 |   65 |      0 |      0 |          1 |
 |         gen_row[2].gen_col[2].u_pe |                        mac_unit_19 |         77 |         77 |       0 |    0 |   65 |      0 |      0 |          1 |
@@ -107,16 +107,17 @@ Table of Contents
 |         gen_row[7].gen_col[5].u_pe |                        mac_unit_62 |         77 |         77 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[7].gen_col[6].u_pe |                        mac_unit_63 |         77 |         77 |       0 |    0 |   57 |      0 |      0 |          1 |
 |         gen_row[7].gen_col[7].u_pe |                        mac_unit_64 |         73 |         73 |       0 |    0 |   57 |      0 |      0 |          1 |
-|       u_kctrl                      |               k_tile_controller_p2 |        611 |        611 |       0 |    0 |  280 |      0 |      0 |          0 |
-|     u_weight_1x1                   |     conv_weight_bram_reader_p4_1x1 |          8 |          8 |       0 |    0 |    1 |      2 |      0 |          0 |
+|       u_kctrl                      |               k_tile_controller_p2 |        497 |        497 |       0 |    0 |  280 |      0 |      0 |          0 |
+|     u_weight_1x1                   |     conv_weight_bram_reader_p4_1x1 |          7 |          7 |       0 |    0 |    1 |      2 |      0 |          0 |
 |       (u_weight_1x1)               |     conv_weight_bram_reader_p4_1x1 |          4 |          4 |       0 |    0 |    1 |      0 |      0 |          0 |
 |       gen_bank[0].u_mem            |                   sync_weight_bram |          2 |          2 |       0 |    0 |    0 |      1 |      0 |          0 |
-|       gen_bank[1].u_mem            |                 sync_weight_bram_1 |          2 |          2 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       gen_bank[1].u_mem            |                 sync_weight_bram_1 |          1 |          1 |       0 |    0 |    0 |      1 |      0 |          0 |
 |     u_weight_3x3                   |     conv_weight_bram_reader_p2_opt |          8 |          8 |       0 |    0 |    1 |      2 |      0 |          0 |
 |       (u_weight_3x3)               |     conv_weight_bram_reader_p2_opt |          4 |          4 |       0 |    0 |    1 |      0 |      0 |          0 |
 |       gen_bank[0].u_mem            |   sync_weight_bram__parameterized0 |          2 |          2 |       0 |    0 |    0 |      1 |      0 |          0 |
 |       gen_bank[1].u_mem            | sync_weight_bram__parameterized0_0 |          2 |          2 |       0 |    0 |    0 |      1 |      0 |          0 |
 |   u_out_mem                        |                        output_bram |         79 |         67 |      12 |    0 |    9 |      4 |      0 |          0 |
 +------------------------------------+------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
 
 

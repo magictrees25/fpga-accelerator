@@ -1,0 +1,813 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
+| Date         : Sun Nov  8 21:08:27 2026
+| Host         : DESKTOP-HIL0EI7 running 64-bit major release  (build 9200)
+| Command      : report_timing -delay_type min -max_paths 20 -path_type full -file D:/2026PRJ/fpga-ai-accelerator-main/fpga-ai-accelerator-main/reports/P5/hold_paths_p5_impl.rpt
+| Design       : fpga_system_top_p5_multimode
+| Device       : 7a100t-csg324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Routed
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             0.059ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[6]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.528ns  (logic 0.251ns (47.519%)  route 0.277ns (52.481%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.335ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.003ns
+    Source Clock Delay      (SCD):    1.416ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.416     1.416    
+    SLICE_X13Y51         FDCE                         0.000     1.416 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/C
+    SLICE_X13Y51         FDCE (Prop_fdce_C_Q)         0.141     1.557 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/Q
+                         net (fo=3, routed)           0.277     1.835    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg_n_0_[6]
+    SLICE_X12Y43         LUT3 (Prop_lut3_I0_O)        0.045     1.880 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[4]_i_7/O
+                         net (fo=1, routed)           0.000     1.880    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[4]_i_7_n_0
+    SLICE_X12Y43         CARRY4 (Prop_carry4_S[2]_O[2])
+                                                      0.065     1.945 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[4]_i_1/O[2]
+                         net (fo=1, routed)           0.000     1.945    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[4]_i_1_n_5
+    SLICE_X12Y43         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      2.003     2.003    
+                         clock pessimism             -0.251     1.751    
+    SLICE_X12Y43         FDCE (Hold_fdce_C_D)         0.134     1.885    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[6]
+  -------------------------------------------------------------------
+                         required time                         -1.885    
+                         arrival time                           1.945    
+  -------------------------------------------------------------------
+                         slack                                  0.059    
+
+Slack (MET) :             0.061ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/act_reg_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[5].gen_col[3].u_pe/act_reg_reg[0]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.414ns  (logic 0.209ns (50.427%)  route 0.205ns (49.573%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        0.261ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.984ns
+    Source Clock Delay      (SCD):    1.468ns
+    Clock Pessimism Removal (CPR):    0.255ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.468     1.468    
+    SLICE_X50Y35         FDCE                         0.000     1.468 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/act_reg_reg[0]/C
+    SLICE_X50Y35         FDCE (Prop_fdce_C_Q)         0.164     1.632 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/act_reg_reg[0]/Q
+                         net (fo=2, routed)           0.205     1.837    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/act_wire[5][3]_90[0]
+    SLICE_X52Y33         LUT2 (Prop_lut2_I0_O)        0.045     1.882 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/act_reg[0]_i_1__42/O
+                         net (fo=1, routed)           0.000     1.882    u_compute/u_ctrl/u_array/gen_row[5].gen_col[3].u_pe/D[0]
+    SLICE_X52Y33         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[3].u_pe/act_reg_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.984     1.984    
+                         clock pessimism             -0.255     1.729    
+    SLICE_X52Y33         FDCE (Hold_fdce_C_D)         0.092     1.821    u_compute/u_ctrl/u_array/gen_row[5].gen_col[3].u_pe/act_reg_reg[0]
+  -------------------------------------------------------------------
+                         required time                         -1.821    
+                         arrival time                           1.882    
+  -------------------------------------------------------------------
+                         slack                                  0.061    
+
+Slack (MET) :             0.063ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[31]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.533ns  (logic 0.290ns (54.372%)  route 0.243ns (45.628%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.336ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.004ns
+    Source Clock Delay      (SCD):    1.416ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.416     1.416    
+    SLICE_X13Y50         FDCE                         0.000     1.416 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/C
+    SLICE_X13Y50         FDCE (Prop_fdce_C_Q)         0.128     1.544 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/Q
+                         net (fo=38, routed)          0.243     1.788    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/p_0_in
+    SLICE_X12Y49         LUT3 (Prop_lut3_I0_O)        0.098     1.886 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[28]_i_5/O
+                         net (fo=1, routed)           0.000     1.886    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[28]_i_5_n_0
+    SLICE_X12Y49         CARRY4 (Prop_carry4_S[3]_O[3])
+                                                      0.064     1.950 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[28]_i_1/O[3]
+                         net (fo=1, routed)           0.000     1.950    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[28]_i_1_n_4
+    SLICE_X12Y49         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[31]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      2.004     2.004    
+                         clock pessimism             -0.251     1.752    
+    SLICE_X12Y49         FDCE (Hold_fdce_C_D)         0.134     1.886    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[31]
+  -------------------------------------------------------------------
+                         required time                         -1.886    
+                         arrival time                           1.950    
+  -------------------------------------------------------------------
+                         slack                                  0.063    
+
+Slack (MET) :             0.068ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[7]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[7]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.536ns  (logic 0.290ns (54.136%)  route 0.246ns (45.864%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.334ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.991ns
+    Source Clock Delay      (SCD):    1.405ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.405     1.405    
+    SLICE_X55Y51         FDCE                         0.000     1.405 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[7]/C
+    SLICE_X55Y51         FDCE (Prop_fdce_C_Q)         0.128     1.533 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[7]/Q
+                         net (fo=3, routed)           0.246     1.779    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg_n_0_[7]
+    SLICE_X54Y43         LUT3 (Prop_lut3_I0_O)        0.098     1.877 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg[4]_i_6__41/O
+                         net (fo=1, routed)           0.000     1.877    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg[4]_i_6__41_n_0
+    SLICE_X54Y43         CARRY4 (Prop_carry4_S[3]_O[3])
+                                                      0.064     1.941 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[4]_i_1__41/O[3]
+                         net (fo=1, routed)           0.000     1.941    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[4]_i_1__41_n_4
+    SLICE_X54Y43         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.991     1.991    
+                         clock pessimism             -0.251     1.739    
+    SLICE_X54Y43         FDCE (Hold_fdce_C_D)         0.134     1.873    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[7]
+  -------------------------------------------------------------------
+                         required time                         -1.873    
+                         arrival time                           1.941    
+  -------------------------------------------------------------------
+                         slack                                  0.068    
+
+Slack (MET) :             0.078ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_0_2/RAMA/WADR0
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.403ns  (logic 0.141ns (35.001%)  route 0.262ns (64.999%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[0]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[0]/Q
+                         net (fo=21, routed)          0.262     1.866    u_out_mem/mask_mem_reg_0_63_0_2/ADDRD0
+    SLICE_X54Y31         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_0_2/RAMA/WADR0
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.982     1.982    
+                         clock pessimism             -0.504     1.478    
+    SLICE_X54Y31         RAMD64E (Hold_ramd64e_CLK_WADR0)
+                                                      0.310     1.788    u_out_mem/mask_mem_reg_0_63_0_2/RAMA
+  -------------------------------------------------------------------
+                         required time                         -1.788    
+                         arrival time                           1.866    
+  -------------------------------------------------------------------
+                         slack                                  0.078    
+
+Slack (MET) :             0.078ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_0_2/RAMB/WADR0
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.403ns  (logic 0.141ns (35.001%)  route 0.262ns (64.999%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[0]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[0]/Q
+                         net (fo=21, routed)          0.262     1.866    u_out_mem/mask_mem_reg_0_63_0_2/ADDRD0
+    SLICE_X54Y31         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_0_2/RAMB/WADR0
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.982     1.982    
+                         clock pessimism             -0.504     1.478    
+    SLICE_X54Y31         RAMD64E (Hold_ramd64e_CLK_WADR0)
+                                                      0.310     1.788    u_out_mem/mask_mem_reg_0_63_0_2/RAMB
+  -------------------------------------------------------------------
+                         required time                         -1.788    
+                         arrival time                           1.866    
+  -------------------------------------------------------------------
+                         slack                                  0.078    
+
+Slack (MET) :             0.078ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_0_2/RAMC/WADR0
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.403ns  (logic 0.141ns (35.001%)  route 0.262ns (64.999%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[0]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[0]/Q
+                         net (fo=21, routed)          0.262     1.866    u_out_mem/mask_mem_reg_0_63_0_2/ADDRD0
+    SLICE_X54Y31         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_0_2/RAMC/WADR0
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.982     1.982    
+                         clock pessimism             -0.504     1.478    
+    SLICE_X54Y31         RAMD64E (Hold_ramd64e_CLK_WADR0)
+                                                      0.310     1.788    u_out_mem/mask_mem_reg_0_63_0_2/RAMC
+  -------------------------------------------------------------------
+                         required time                         -1.788    
+                         arrival time                           1.866    
+  -------------------------------------------------------------------
+                         slack                                  0.078    
+
+Slack (MET) :             0.078ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_0_2/RAMD/WADR0
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.403ns  (logic 0.141ns (35.001%)  route 0.262ns (64.999%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[0]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[0]/Q
+                         net (fo=21, routed)          0.262     1.866    u_out_mem/mask_mem_reg_0_63_0_2/ADDRD0
+    SLICE_X54Y31         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_0_2/RAMD/WADR0
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.982     1.982    
+                         clock pessimism             -0.504     1.478    
+    SLICE_X54Y31         RAMD64E (Hold_ramd64e_CLK_WADR0)
+                                                      0.310     1.788    u_out_mem/mask_mem_reg_0_63_0_2/RAMD
+  -------------------------------------------------------------------
+                         required time                         -1.788    
+                         arrival time                           1.866    
+  -------------------------------------------------------------------
+                         slack                                  0.078    
+
+Slack (MET) :             0.084ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/mul_reg_reg[14]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg_reg[14]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.482ns  (logic 0.251ns (52.113%)  route 0.231ns (47.887%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.264ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.992ns
+    Source Clock Delay      (SCD):    1.473ns
+    Clock Pessimism Removal (CPR):    0.255ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.473     1.473    
+    SLICE_X57Y48         FDCE                         0.000     1.473 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/mul_reg_reg[14]/C
+    SLICE_X57Y48         FDCE (Prop_fdce_C_Q)         0.141     1.614 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/mul_reg_reg[14]/Q
+                         net (fo=3, routed)           0.231     1.845    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/mul_reg_reg_n_0_[14]
+    SLICE_X50Y45         LUT3 (Prop_lut3_I0_O)        0.045     1.890 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg[12]_i_7__25/O
+                         net (fo=1, routed)           0.000     1.890    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg[12]_i_7__25_n_0
+    SLICE_X50Y45         CARRY4 (Prop_carry4_S[2]_O[2])
+                                                      0.065     1.955 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg_reg[12]_i_1__25/O[2]
+                         net (fo=1, routed)           0.000     1.955    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg_reg[12]_i_1__25_n_5
+    SLICE_X50Y45         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg_reg[14]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.992     1.992    
+                         clock pessimism             -0.255     1.737    
+    SLICE_X50Y45         FDCE (Hold_fdce_C_D)         0.134     1.871    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/acc_reg_reg[14]
+  -------------------------------------------------------------------
+                         required time                         -1.871    
+                         arrival time                           1.955    
+  -------------------------------------------------------------------
+                         slack                                  0.084    
+
+Slack (MET) :             0.090ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_3_5/RAMA/WADR4
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.304ns  (logic 0.141ns (46.450%)  route 0.163ns (53.550%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.981ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[4]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[4]/Q
+                         net (fo=20, routed)          0.163     1.766    u_out_mem/mask_mem_reg_0_63_3_5/ADDRD4
+    SLICE_X54Y30         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_3_5/RAMA/WADR4
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.981     1.981    
+                         clock pessimism             -0.504     1.477    
+    SLICE_X54Y30         RAMD64E (Hold_ramd64e_CLK_WADR4)
+                                                      0.200     1.677    u_out_mem/mask_mem_reg_0_63_3_5/RAMA
+  -------------------------------------------------------------------
+                         required time                         -1.677    
+                         arrival time                           1.766    
+  -------------------------------------------------------------------
+                         slack                                  0.090    
+
+Slack (MET) :             0.090ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_3_5/RAMB/WADR4
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.304ns  (logic 0.141ns (46.450%)  route 0.163ns (53.550%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.981ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[4]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[4]/Q
+                         net (fo=20, routed)          0.163     1.766    u_out_mem/mask_mem_reg_0_63_3_5/ADDRD4
+    SLICE_X54Y30         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_3_5/RAMB/WADR4
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.981     1.981    
+                         clock pessimism             -0.504     1.477    
+    SLICE_X54Y30         RAMD64E (Hold_ramd64e_CLK_WADR4)
+                                                      0.200     1.677    u_out_mem/mask_mem_reg_0_63_3_5/RAMB
+  -------------------------------------------------------------------
+                         required time                         -1.677    
+                         arrival time                           1.766    
+  -------------------------------------------------------------------
+                         slack                                  0.090    
+
+Slack (MET) :             0.090ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_3_5/RAMC/WADR4
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.304ns  (logic 0.141ns (46.450%)  route 0.163ns (53.550%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.981ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[4]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[4]/Q
+                         net (fo=20, routed)          0.163     1.766    u_out_mem/mask_mem_reg_0_63_3_5/ADDRD4
+    SLICE_X54Y30         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_3_5/RAMC/WADR4
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.981     1.981    
+                         clock pessimism             -0.504     1.477    
+    SLICE_X54Y30         RAMD64E (Hold_ramd64e_CLK_WADR4)
+                                                      0.200     1.677    u_out_mem/mask_mem_reg_0_63_3_5/RAMC
+  -------------------------------------------------------------------
+                         required time                         -1.677    
+                         arrival time                           1.766    
+  -------------------------------------------------------------------
+                         slack                                  0.090    
+
+Slack (MET) :             0.090ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/write_word_idx_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_out_mem/mask_mem_reg_0_63_3_5/RAMD/WADR4
+                            (rising edge-triggered cell RAMD64E clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.304ns  (logic 0.141ns (46.450%)  route 0.163ns (53.550%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.981ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.504ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X53Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/write_word_idx_reg[4]/C
+    SLICE_X53Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/write_word_idx_reg[4]/Q
+                         net (fo=20, routed)          0.163     1.766    u_out_mem/mask_mem_reg_0_63_3_5/ADDRD4
+    SLICE_X54Y30         RAMD64E                                      r  u_out_mem/mask_mem_reg_0_63_3_5/RAMD/WADR4
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.981     1.981    
+                         clock pessimism             -0.504     1.477    
+    SLICE_X54Y30         RAMD64E (Hold_ramd64e_CLK_WADR4)
+                                                      0.200     1.677    u_out_mem/mask_mem_reg_0_63_3_5/RAMD
+  -------------------------------------------------------------------
+                         required time                         -1.677    
+                         arrival time                           1.766    
+  -------------------------------------------------------------------
+                         slack                                  0.090    
+
+Slack (MET) :             0.094ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[7]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.563ns  (logic 0.286ns (50.781%)  route 0.277ns (49.219%))
+  Logic Levels:           2  (CARRY4=1 LUT2=1)
+  Clock Path Skew:        0.335ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.003ns
+    Source Clock Delay      (SCD):    1.416ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.416     1.416    
+    SLICE_X13Y51         FDCE                         0.000     1.416 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/C
+    SLICE_X13Y51         FDCE (Prop_fdce_C_Q)         0.141     1.557 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[6]/Q
+                         net (fo=3, routed)           0.277     1.835    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg_n_0_[6]
+    SLICE_X12Y43         LUT2 (Prop_lut2_I0_O)        0.049     1.884 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[4]_i_3/O
+                         net (fo=1, routed)           0.000     1.884    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[4]_i_3_n_0
+    SLICE_X12Y43         CARRY4 (Prop_carry4_DI[2]_O[3])
+                                                      0.096     1.980 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[4]_i_1/O[3]
+                         net (fo=1, routed)           0.000     1.980    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[4]_i_1_n_4
+    SLICE_X12Y43         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      2.003     2.003    
+                         clock pessimism             -0.251     1.751    
+    SLICE_X12Y43         FDCE (Hold_fdce_C_D)         0.134     1.885    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[7]
+  -------------------------------------------------------------------
+                         required time                         -1.885    
+                         arrival time                           1.980    
+  -------------------------------------------------------------------
+                         slack                                  0.094    
+
+Slack (MET) :             0.103ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[3].gen_col[1].u_pe/act_reg_reg[5]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/act_reg_reg[5]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.570ns  (logic 0.250ns (43.879%)  route 0.320ns (56.121%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        0.336ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.995ns
+    Source Clock Delay      (SCD):    1.407ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.407     1.407    
+    SLICE_X58Y51         FDCE                         0.000     1.407 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[1].u_pe/act_reg_reg[5]/C
+    SLICE_X58Y51         FDCE (Prop_fdce_C_Q)         0.148     1.555 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[1].u_pe/act_reg_reg[5]/Q
+                         net (fo=2, routed)           0.320     1.875    u_compute/u_ctrl/u_array/gen_row[3].gen_col[1].u_pe/act_wire[3][2]_58[5]
+    SLICE_X58Y47         LUT2 (Prop_lut2_I0_O)        0.102     1.977 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[1].u_pe/act_reg[5]_i_1__25/O
+                         net (fo=1, routed)           0.000     1.977    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/D[5]
+    SLICE_X58Y47         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/act_reg_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.995     1.995    
+                         clock pessimism             -0.251     1.743    
+    SLICE_X58Y47         FDCE (Hold_fdce_C_D)         0.131     1.874    u_compute/u_ctrl/u_array/gen_row[3].gen_col[2].u_pe/act_reg_reg[5]
+  -------------------------------------------------------------------
+                         required time                         -1.874    
+                         arrival time                           1.977    
+  -------------------------------------------------------------------
+                         slack                                  0.103    
+
+Slack (MET) :             0.104ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[30]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.574ns  (logic 0.291ns (50.664%)  route 0.283ns (49.336%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.336ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.004ns
+    Source Clock Delay      (SCD):    1.416ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.416     1.416    
+    SLICE_X13Y50         FDCE                         0.000     1.416 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/C
+    SLICE_X13Y50         FDCE (Prop_fdce_C_Q)         0.128     1.544 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[15]/Q
+                         net (fo=38, routed)          0.283     1.828    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/p_0_in
+    SLICE_X12Y49         LUT3 (Prop_lut3_I0_O)        0.098     1.926 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[28]_i_6/O
+                         net (fo=1, routed)           0.000     1.926    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[28]_i_6_n_0
+    SLICE_X12Y49         CARRY4 (Prop_carry4_S[2]_O[2])
+                                                      0.065     1.991 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[28]_i_1/O[2]
+                         net (fo=1, routed)           0.000     1.991    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[28]_i_1_n_5
+    SLICE_X12Y49         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[30]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      2.004     2.004    
+                         clock pessimism             -0.251     1.752    
+    SLICE_X12Y49         FDCE (Hold_fdce_C_D)         0.134     1.886    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[30]
+  -------------------------------------------------------------------
+                         required time                         -1.886    
+                         arrival time                           1.991    
+  -------------------------------------------------------------------
+                         slack                                  0.104    
+
+Slack (MET) :             0.105ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[11]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[11]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.574ns  (logic 0.291ns (50.676%)  route 0.283ns (49.324%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.335ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.003ns
+    Source Clock Delay      (SCD):    1.416ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.416     1.416    
+    SLICE_X13Y52         FDCE                         0.000     1.416 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[11]/C
+    SLICE_X13Y52         FDCE (Prop_fdce_C_Q)         0.128     1.544 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg[11]/Q
+                         net (fo=3, routed)           0.283     1.828    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/mul_reg_reg_n_0_[11]
+    SLICE_X12Y44         LUT3 (Prop_lut3_I0_O)        0.099     1.927 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[8]_i_6/O
+                         net (fo=1, routed)           0.000     1.927    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg[8]_i_6_n_0
+    SLICE_X12Y44         CARRY4 (Prop_carry4_S[3]_O[3])
+                                                      0.064     1.991 r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[8]_i_1/O[3]
+                         net (fo=1, routed)           0.000     1.991    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[8]_i_1_n_4
+    SLICE_X12Y44         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[11]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      2.003     2.003    
+                         clock pessimism             -0.251     1.751    
+    SLICE_X12Y44         FDCE (Hold_fdce_C_D)         0.134     1.885    u_compute/u_ctrl/u_array/gen_row[0].gen_col[0].u_pe/acc_reg_reg[11]
+  -------------------------------------------------------------------
+                         required time                         -1.885    
+                         arrival time                           1.991    
+  -------------------------------------------------------------------
+                         slack                                  0.105    
+
+Slack (MET) :             0.106ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[15]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[27]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.575ns  (logic 0.311ns (54.059%)  route 0.264ns (45.941%))
+  Logic Levels:           2  (CARRY4=1 LUT3=1)
+  Clock Path Skew:        0.335ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.992ns
+    Source Clock Delay      (SCD):    1.405ns
+    Clock Pessimism Removal (CPR):    0.251ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.405     1.405    
+    SLICE_X56Y53         FDCE                         0.000     1.405 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[15]/C
+    SLICE_X56Y53         FDCE (Prop_fdce_C_Q)         0.148     1.553 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/mul_reg_reg[15]/Q
+                         net (fo=38, routed)          0.264     1.818    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/p_0_in
+    SLICE_X54Y48         LUT3 (Prop_lut3_I0_O)        0.099     1.917 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg[24]_i_6__41/O
+                         net (fo=1, routed)           0.000     1.917    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg[24]_i_6__41_n_0
+    SLICE_X54Y48         CARRY4 (Prop_carry4_S[3]_O[3])
+                                                      0.064     1.981 r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[24]_i_1__41/O[3]
+                         net (fo=1, routed)           0.000     1.981    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[24]_i_1__41_n_4
+    SLICE_X54Y48         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[27]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.992     1.992    
+                         clock pessimism             -0.251     1.740    
+    SLICE_X54Y48         FDCE (Hold_fdce_C_D)         0.134     1.874    u_compute/u_ctrl/u_array/gen_row[5].gen_col[2].u_pe/acc_reg_reg[27]
+  -------------------------------------------------------------------
+                         required time                         -1.874    
+                         arrival time                           1.981    
+  -------------------------------------------------------------------
+                         slack                                  0.106    
+
+Slack (MET) :             0.107ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[6].gen_col[3].u_pe/act_reg_reg[2]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[6].gen_col[4].u_pe/act_reg_reg[2]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.463ns  (logic 0.186ns (40.133%)  route 0.277ns (59.867%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        0.265ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.983ns
+    Source Clock Delay      (SCD):    1.463ns
+    Clock Pessimism Removal (CPR):    0.255ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.463     1.463    
+    SLICE_X52Y30         FDCE                         0.000     1.463 r  u_compute/u_ctrl/u_array/gen_row[6].gen_col[3].u_pe/act_reg_reg[2]/C
+    SLICE_X52Y30         FDCE (Prop_fdce_C_Q)         0.141     1.604 r  u_compute/u_ctrl/u_array/gen_row[6].gen_col[3].u_pe/act_reg_reg[2]/Q
+                         net (fo=2, routed)           0.277     1.881    u_compute/u_ctrl/u_array/gen_row[6].gen_col[3].u_pe/act_wire[6][4]_107[2]
+    SLICE_X48Y29         LUT2 (Prop_lut2_I0_O)        0.045     1.926 r  u_compute/u_ctrl/u_array/gen_row[6].gen_col[3].u_pe/act_reg[2]_i_1__51/O
+                         net (fo=1, routed)           0.000     1.926    u_compute/u_ctrl/u_array/gen_row[6].gen_col[4].u_pe/D[2]
+    SLICE_X48Y29         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[6].gen_col[4].u_pe/act_reg_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.983     1.983    
+                         clock pessimism             -0.255     1.728    
+    SLICE_X48Y29         FDCE (Hold_fdce_C_D)         0.091     1.819    u_compute/u_ctrl/u_array/gen_row[6].gen_col[4].u_pe/act_reg_reg[2]
+  -------------------------------------------------------------------
+                         required time                         -1.819    
+                         arrival time                           1.926    
+  -------------------------------------------------------------------
+                         slack                                  0.107    
+
+Slack (MET) :             0.108ns  (arrival time - required time)
+  Source:                 u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/mul_reg_reg[15]/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/ovf_reg_reg/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.464ns  (logic 0.227ns (48.970%)  route 0.237ns (51.030%))
+  Logic Levels:           1  (LUT5=1)
+  Clock Path Skew:        0.264ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.981ns
+    Source Clock Delay      (SCD):    1.462ns
+    Clock Pessimism Removal (CPR):    0.255ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.462     1.462    
+    SLICE_X53Y20         FDCE                         0.000     1.462 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/mul_reg_reg[15]/C
+    SLICE_X53Y20         FDCE (Prop_fdce_C_Q)         0.128     1.590 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/mul_reg_reg[15]/Q
+                         net (fo=38, routed)          0.237     1.826    u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/p_0_in
+    SLICE_X51Y20         LUT5 (Prop_lut5_I0_O)        0.099     1.925 r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/ovf_reg_i_1__29/O
+                         net (fo=1, routed)           0.000     1.925    u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/ovf_reg
+    SLICE_X51Y20         FDCE                                         r  u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/ovf_reg_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r  
+                         propagated clock network latency
+                                                      1.981     1.981    
+                         clock pessimism             -0.255     1.726    
+    SLICE_X51Y20         FDCE (Hold_fdce_C_D)         0.092     1.818    u_compute/u_ctrl/u_array/gen_row[3].gen_col[6].u_pe/ovf_reg_reg
+  -------------------------------------------------------------------
+                         required time                         -1.818    
+                         arrival time                           1.925    
+  -------------------------------------------------------------------
+                         slack                                  0.108    
+
+
+
+
