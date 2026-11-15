@@ -71,6 +71,11 @@ module conv_accelerator_top_p5_multimode #(
     logic [ADDR_WIDTH-1:0] shared_fmap_rd_addr;
     logic [15:0] shared_fmap_rd_data;
     logic shared_fmap_rd_valid;
+    logic fmap_rd_valid_s1;
+
+    assign fmap_rd_valid_s1 =
+        shared_fmap_rd_valid &&
+        (active_mode == MODE_3X3_S1);
 
     assign cfg_m_len = (cfg_mode == MODE_3X3_S1)
                      ? ADDR_WIDTH'(64) : ADDR_WIDTH'(16);
@@ -143,7 +148,7 @@ module conv_accelerator_top_p5_multimode #(
         .wr_addr(fmap_wr_addr),
         .wr_data(fmap_wr_data),
         .fmap_rd_data(shared_fmap_rd_data),
-        .fmap_rd_valid(shared_fmap_rd_valid),
+        .fmap_rd_valid(fmap_rd_valid_s1),
         .fmap_rd_en(fmap_rd_en_s1),
         .fmap_rd_addr(fmap_rd_addr_s1),
         .act_pair_packed(act_s1),
