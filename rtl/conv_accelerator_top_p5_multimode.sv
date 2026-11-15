@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-// P5-A: one 8x8 INT8 compute array / one K-M-N controller, 3 run-time modes.
+// P5-B1: one 8x8 INT8 compute array / one K-M-N controller, 3 run-time modes.
 // This is a FUNCTIONAL INTEGRATION PROTOTYPE, not a memory-optimized engine.
 // All three activation-reader memories and BOTH weight-reader memories exist
 // physically; preloads/requests are gated to the selected mode.  BRAM use
