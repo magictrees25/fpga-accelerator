@@ -1,4 +1,3 @@
-
 `timescale 1ns / 1ps
 
 // ============================================================
@@ -17,17 +16,23 @@
 //
 // During computation:
 //   Compute requests are served by Line Buffer.
-//   Prefetch engine reads the next feature-map row from BRAM.
+//   Prefetch engine reads the next feature-map row from either
+//   the local Activation BRAM or an external shared Activation BRAM.
 //
-// BRAM read latency: 1 clock
-// Line Buffer read latency: 1 clock
+// EXTERNAL_ACT_MEM = 0: original local-BRAM implementation.
+// EXTERNAL_ACT_MEM = 1: activation data is fetched through the
+//                       external shared-BRAM read interface.
+//
+// External BRAM read latency: 1 clock
+// Line Buffer read latency:   1 clock
 // ============================================================
 
 module conv_bram_reader_p3 #(
     parameter int H_IN       = 10,
     parameter int W_IN       = 10,
     parameter int C_IN       = 64,
-    parameter int ADDR_WIDTH = 16
+    parameter int ADDR_WIDTH = 16,
+    parameter bit EXTERNAL_ACT_MEM = 1'b0
 )(
     input  logic clk,
     input  logic rst_n,
@@ -36,9 +41,22 @@ module conv_bram_reader_p3 #(
     input  logic pair_req_en,
     input  logic [ADDR_WIDTH-1:0] fetch_k_base,
 
+    // Host preload interface.
+    // In external-memory mode, the top level must also route these
+    // writes to the shared Activation BRAM. wr_en remains connected
+    // here because P3 uses the first four rows to initialize its Line Buffer.
     input  logic wr_en,
     input  logic [ADDR_WIDTH-1:0] wr_addr,
     input  logic [7:0] wr_data,
+
+    // External shared Activation BRAM interface.
+    // fmap_rd_addr is a PAIR address (byte_address / 2), not a byte address.
+    // The external memory must return fmap_rd_data with fmap_rd_valid
+    // asserted exactly one clock after fmap_rd_en is accepted.
+    input  logic [15:0] fmap_rd_data,
+    input  logic        fmap_rd_valid,
+    output logic        fmap_rd_en,
+    output logic [ADDR_WIDTH-1:0] fmap_rd_addr,
 
     output logic [15:0] act_pair_packed,
     output logic [1:0] act_rsp_valid
@@ -55,7 +73,7 @@ module conv_bram_reader_p3 #(
         INITIAL_ROWS * W_IN * C_IN;
 
     // --------------------------------------------------------
-    // 1. Activation BRAM: two 8-bit banks
+    // 1. Activation BRAM: local or external shared memory
     // --------------------------------------------------------
 
     logic [ADDR_WIDTH-1:0] bank_wr_addr;
@@ -66,36 +84,66 @@ module conv_bram_reader_p3 #(
 
     logic [7:0] bank_q [0:1];
 
+    logic [15:0] prefetch_pair_data;
+    logic        prefetch_data_valid;
+
     assign bank_wr_addr = wr_addr >> 1;
 
-    for (genvar p = 0; p < 2; p++) begin : gen_act_bank
+    generate
+        if (EXTERNAL_ACT_MEM) begin : gen_external_act_mem
 
-        assign bank_wr_en[p] =
-            wr_en &&
-            (wr_addr < ADDR_WIDTH'(DEPTH)) &&
-            (wr_addr[0] == (p == 1));
+            // The activation storage is instantiated at the system top level.
+            // P3 retains its Line Buffer but does not instantiate local fmap RAM.
+            assign bank_wr_en = 2'b00;
+            assign bank_rd_en = 2'b00;
 
-        // Both banks read the same pair address.
-        assign bank_rd_en[p] = prefetch_issue;
-        assign bank_rd_addr[p] = prefetch_bram_addr;
+            assign bank_rd_addr[0] = '0;
+            assign bank_rd_addr[1] = '0;
 
-        sync_fmap_bram #(
-            .DEPTH(BANK_DEPTH),
-            .DATA_WIDTH(8),
-            .ADDR_WIDTH(ADDR_WIDTH)
-        ) u_mem (
-            .clk(clk),
+            assign bank_q[0] = 8'b0;
+            assign bank_q[1] = 8'b0;
 
-            .wr_en(bank_wr_en[p]),
-            .wr_addr(bank_wr_addr),
-            .wr_data(wr_data),
+            assign prefetch_pair_data = fmap_rd_data;
 
-            .rd_en(bank_rd_en[p]),
-            .rd_addr(bank_rd_addr[p]),
-            .rd_data(bank_q[p])
-        );
+        end
+        else begin : gen_local_act_mem
 
-    end
+            for (genvar p = 0; p < 2; p++) begin : gen_act_bank
+
+                assign bank_wr_en[p] =
+                    wr_en &&
+                    (wr_addr < ADDR_WIDTH'(DEPTH)) &&
+                    (wr_addr[0] == (p == 1));
+
+                // Both banks read the same pair address.
+                assign bank_rd_en[p] = prefetch_issue;
+                assign bank_rd_addr[p] = prefetch_bram_addr;
+
+                sync_fmap_bram #(
+                    .DEPTH(BANK_DEPTH),
+                    .DATA_WIDTH(8),
+                    .ADDR_WIDTH(ADDR_WIDTH)
+                ) u_mem (
+                    .clk(clk),
+
+                    .wr_en(bank_wr_en[p]),
+                    .wr_addr(bank_wr_addr),
+                    .wr_data(wr_data),
+
+                    .rd_en(bank_rd_en[p]),
+                    .rd_addr(bank_rd_addr[p]),
+                    .rd_data(bank_q[p])
+                );
+
+            end
+
+            assign prefetch_pair_data = {
+                bank_q[1],
+                bank_q[0]
+            };
+
+        end
+    endgenerate
 
     // --------------------------------------------------------
     // 2. M/K -> Sliding Window address mapping
@@ -240,12 +288,22 @@ module conv_bram_reader_p3 #(
     logic prefetch_busy;
     logic prefetch_trigger;
 
-    // BRAM response pipeline
+    // One-cycle response tag/address pipeline.
+    // This tag is used for both local and external BRAM responses.
     logic prefetch_pending;
     logic [10:0] prefetch_pending_lb_addr;
 
     assign prefetch_busy = (pf_state != PF_IDLE);
     assign prefetch_issue = (pf_state == PF_READ);
+
+    // External shared-memory request. The address is a pair address.
+    assign fmap_rd_en = EXTERNAL_ACT_MEM ? prefetch_issue : 1'b0;
+    assign fmap_rd_addr = EXTERNAL_ACT_MEM ?
+                          ADDR_WIDTH'(prefetch_bram_addr) : '0;
+
+    // Select the matching one-cycle response-valid source.
+    assign prefetch_data_valid = EXTERNAL_ACT_MEM ?
+                                 fmap_rd_valid : prefetch_pending;
 
     // Trigger at the first M of output rows y=1~6.
     //
@@ -261,7 +319,7 @@ module conv_bram_reader_p3 #(
         (m_addr[5:3] >= 1) &&
         (m_addr[5:3] <= 6);
 
-    // BRAM address = prefetch_row * 320 + index
+    // BRAM pair address = prefetch_row * 320 + index
     assign prefetch_bram_row_base =
         ({8'b0, prefetch_row} << 8) +
         ({8'b0, prefetch_row} << 6);
@@ -334,7 +392,6 @@ module conv_bram_reader_p3 #(
 
     // Delay the BRAM request by one cycle.
     // The delayed address identifies the returned data.
-
     always_ff @(posedge clk or negedge rst_n) begin
 
         if (!rst_n) begin
@@ -367,16 +424,11 @@ module conv_bram_reader_p3 #(
         lb_wr_addr = 0;
         lb_wr_data = 0;
 
-        if (prefetch_pending) begin
+        if (prefetch_data_valid) begin
 
             lb_wr_en = 2'b11;
-
             lb_wr_addr = prefetch_pending_lb_addr;
-
-            lb_wr_data = {
-                bank_q[1],
-                bank_q[0]
-            };
+            lb_wr_data = prefetch_pair_data;
 
         end
 
@@ -495,6 +547,15 @@ module conv_bram_reader_p3 #(
 
             if (preload_lb_accept && prefetch_pending)
                 $fatal(1, "P3 Reader: preload/prefetch write conflict");
+
+            // The external shared BRAM must return one-cycle responses.
+            if (EXTERNAL_ACT_MEM &&
+                (fmap_rd_valid !== prefetch_pending))
+                $fatal(1, "P3 Reader: external BRAM response-valid misaligned");
+
+            if (EXTERNAL_ACT_MEM && fmap_rd_en &&
+                (fmap_rd_addr >= ADDR_WIDTH'(BANK_DEPTH)))
+                $fatal(1, "P3 Reader: external BRAM read address out of range");
 
         end
 
