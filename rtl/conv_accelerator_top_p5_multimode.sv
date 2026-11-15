@@ -48,13 +48,12 @@ module conv_accelerator_top_p5_multimode #(
     logic [1:0] act_rsp_valid, wgt_rsp_valid;
     logic [15:0] act_s1, act_1x1, act_s2;
     logic [1:0]  av_s1, av_1x1, av_s2;
-    logic [127:0] wgt_3x3, wgt_1x1;
-    logic [1:0]   wv_3x3, wv_1x1;
+    
 
     logic req_s1, req_1x1, req_s2;
     logic wr_s1, wr_1x1, wr_s2;
+    // Weight request mode indicators (also used by TB)
     logic wreq_3x3, wreq_1x1;
-    logic wwr_3x3, wwr_1x1;
 
     assign cfg_m_len = (cfg_mode == MODE_3X3_S1) ? ADDR_WIDTH'(64) : ADDR_WIDTH'(16);
     assign cfg_k_len = (cfg_mode == MODE_1X1_S2) ? ADDR_WIDTH'(64) : ADDR_WIDTH'(576);
@@ -110,23 +109,35 @@ module conv_accelerator_top_p5_multimode #(
         .act_pair_packed(act_s2), .act_rsp_valid(av_s2)
     );
 
-    assign wwr_1x1  = weight_wr_en && cfg_mode == MODE_1X1_S2;
-    assign wwr_3x3  = weight_wr_en && cfg_mode != MODE_1X1_S2 && cfg_mode != 2'd3;
+ 
+    // Weight request mode indicators
     assign wreq_1x1 = pair_req_en && active_mode == MODE_1X1_S2;
     assign wreq_3x3 = pair_req_en && active_mode != MODE_1X1_S2;
 
-    conv_weight_bram_reader_p4_1x1 #(.ADDR_WIDTH(ADDR_WIDTH)) u_weight_1x1 (
-        .clk(clk), .rst_n(rst_n), .n_base(n_base),
-        .pair_req_en(wreq_1x1), .fetch_k_base(fetch_k_base),
-        .wr_en(wwr_1x1), .wr_addr(weight_wr_addr), .wr_data(weight_wr_data),
-        .wgt_pair_packed(wgt_1x1), .wgt_rsp_valid(wv_1x1)
+    // P5-B1: One shared weight BRAM reader for all convolution modes.
+    // K=64  : 1x1/S2
+    // K=576 : 3x3/S1 and 3x3/S2
+    conv_weight_bram_reader_p5_shared #(
+        .ADDR_WIDTH(ADDR_WIDTH),
+        .K_MAX(576)
+    ) u_weight_shared (
+        .clk(clk),
+        .rst_n(rst_n),
+
+        .n_base(n_base),
+        .k_len(cfg_k_len),
+
+        .pair_req_en(pair_req_en),
+        .fetch_k_base(fetch_k_base),
+
+        .wr_en(weight_wr_en),
+        .wr_addr(weight_wr_addr),
+        .wr_data(weight_wr_data),
+
+        .wgt_pair_packed(wgt_pair_packed),
+        .wgt_rsp_valid(wgt_rsp_valid)
     );
-    conv_weight_bram_reader_p2_opt #(.ADDR_WIDTH(ADDR_WIDTH)) u_weight_3x3 (
-        .clk(clk), .rst_n(rst_n), .n_base(n_base),
-        .pair_req_en(wreq_3x3), .fetch_k_base(fetch_k_base),
-        .wr_en(wwr_3x3), .wr_addr(weight_wr_addr), .wr_data(weight_wr_data),
-        .wgt_pair_packed(wgt_3x3), .wgt_rsp_valid(wv_3x3)
-    );
+
 
     always_comb begin
         case (active_mode)
@@ -147,13 +158,7 @@ module conv_accelerator_top_p5_multimode #(
                 act_rsp_valid = '0;
             end
         endcase
-        if (active_mode == MODE_1X1_S2) begin
-            wgt_pair_packed = wgt_1x1;
-            wgt_rsp_valid = wv_1x1;
-        end else begin
-            wgt_pair_packed = wgt_3x3;
-            wgt_rsp_valid = wv_3x3;
-        end
+      
     end
 
     // synthesis translate_off

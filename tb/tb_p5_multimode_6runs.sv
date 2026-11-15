@@ -199,8 +199,8 @@ module tb_p5_multimode_6runs;
                 if(dut.u_compute.u_act_s1.lb_rd_en !== dut.u_compute.req_s1 ||
                    dut.u_compute.u_act_1x1.bank_rd_en !== {2{dut.u_compute.req_1x1}} ||
                    dut.u_compute.u_act_s2.bank_rd_en !== {2{dut.u_compute.req_s2}} ||
-                   dut.u_compute.u_weight_1x1.bank_rd_en !== {2{dut.u_compute.wreq_1x1}} ||
-                   dut.u_compute.u_weight_3x3.bank_rd_en !== {2{dut.u_compute.wreq_3x3}})
+                   dut.u_compute.u_weight_shared.bank_rd_en !==
+                   {2{dut.u_compute.pair_req_en}}
                     $fatal(1,"P5: unselected RAM read enable e=%0d",epoch);
                 req_count++;
             end
