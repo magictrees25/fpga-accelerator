@@ -4,7 +4,7 @@
 // ===========================================================================
 // Module: k_tile_controller_p2.sv
 //
-// P5-B2-5A + P6-A update:
+// P5-B2-5A + P6-A + P6-B2-3 update:
 //
 // P5-B2-5A:
 //   1. Registered next_fetch_k.
@@ -21,6 +21,10 @@
 //
 // K length counts ELEMENTS, not pairs.
 // Positive even K only. No backpressure.
+// P6-B2-3: optional even global K offset, latched on accepted start.
+// k_base/PE row selection remain LOCAL. fetch_k_base is GLOBAL only when
+// USE_K_TILE_BASE=1 and pair_req_en=1. Each complete pair must fit the address
+// width. Default 0 ignores the new input, including an unconnected input.
 //
 // ===========================================================================
 
@@ -28,7 +32,8 @@ module k_tile_controller_p2
   import pkg_accelerator::*;
 #(
   parameter int K_ADDR_WIDTH = 16,
-  parameter int DRAIN_CYCLES = 13
+  parameter int DRAIN_CYCLES = 13,
+  parameter bit USE_K_TILE_BASE = 1'b0
 )(
   input logic clk,
   input logic rst_n,
@@ -68,7 +73,10 @@ module k_tile_controller_p2
 
   output logic busy,
   output logic done,
-  output logic [255:0] result_packed
+  output logic [255:0] result_packed,
+
+  // Appended for compatibility with existing named-port instantiations.
+  input logic [K_ADDR_WIDTH-1:0] k_tile_base
 );
 
   // -------------------------------------------------------------------------
@@ -98,6 +106,12 @@ module k_tile_controller_p2
 
   // Registered next request address.
   logic [K_ADDR_WIDTH-1:0] next_fetch_k;
+
+  // Global addressing never feeds back into local K or PE row selection.
+  // Registered separately to keep the base addition off the Reader request
+  // combinational path. These registers reduce to constants in legacy mode.
+  logic [K_ADDR_WIDTH-1:0] tile_base_saved;
+  logic [K_ADDR_WIDTH-1:0] next_fetch_global;
 
   // Number of K-pairs remaining after current pair.
   logic [K_ADDR_WIDTH-2:0] pairs_remaining;
@@ -176,7 +190,7 @@ module k_tile_controller_p2
     if (state == S_CLEAR) begin
 
       pair_req_en = 1'b1;
-      fetch_k_base = '0;
+      fetch_k_base = USE_K_TILE_BASE ? tile_base_saved : '0;
 
     end
 
@@ -202,7 +216,7 @@ module k_tile_controller_p2
       if (pairs_remaining != 0) begin
 
         pair_req_en = 1'b1;
-        fetch_k_base = next_fetch_k;
+        fetch_k_base = USE_K_TILE_BASE ? next_fetch_global : next_fetch_k;
 
       end
 
@@ -227,6 +241,8 @@ module k_tile_controller_p2
       clear_acc_saved <= 1'b0;
 
       next_fetch_k <= '0;
+      tile_base_saved <= '0;
+      next_fetch_global <= '0;
       pairs_remaining <= '0;
 
       drain_cnt <= '0;
@@ -253,6 +269,12 @@ module k_tile_controller_p2
 
             // Save whether this K-Tile should clear the accumulator.
             clear_acc_saved <= clear_acc_on_start;
+
+            tile_base_saved <= USE_K_TILE_BASE ? k_tile_base : '0;
+            // For k_len=2 this lookahead is unused (including at the address
+            // ceiling); no wrapped address is ever requested.
+            next_fetch_global <= USE_K_TILE_BASE ?
+                k_tile_base + K_ADDR_WIDTH'(2) : '0;
 
             state <= S_CLEAR;
 
@@ -298,6 +320,9 @@ module k_tile_controller_p2
 
             next_fetch_k <=
                 next_fetch_k + K_ADDR_WIDTH'(2);
+
+            if (USE_K_TILE_BASE)
+              next_fetch_global <= next_fetch_global + K_ADDR_WIDTH'(2);
 
             pairs_remaining <=
                 pairs_remaining - 1'b1;
@@ -394,6 +419,17 @@ module k_tile_controller_p2
           $fatal(1,
             "k_tile_controller_p2 requires positive even k_len and known clear control");
 
+        if (USE_K_TILE_BASE) begin
+          if ($isunknown(k_tile_base) || k_tile_base[0])
+            $fatal(1, "k_tile_controller_p2 requires a known even k_tile_base");
+
+          // Extended arithmetic permits the final element at 2**width-1,
+          // while rejecting any request range that wraps the address bus.
+          if (({1'b0, k_tile_base} + {1'b0, k_len}) >
+              {1'b1, {K_ADDR_WIDTH{1'b0}}})
+            $fatal(1, "k_tile_controller_p2 global K range exceeds address width");
+        end
+
       end
 
 
@@ -410,11 +446,19 @@ module k_tile_controller_p2
       // Validate next K request.
       if (state == S_FEED &&
           pair_req_en &&
-          (fetch_k_base >= k_len_saved ||
-           fetch_k_base[0]))
+          (next_fetch_k >= k_len_saved ||
+           next_fetch_k[0]))
 
         $fatal(1,
           "k_tile_controller_p2 invalid next K request");
+
+      if (USE_K_TILE_BASE && pair_req_en) begin
+        if ($isunknown(fetch_k_base) || fetch_k_base[0] ||
+            fetch_k_base < tile_base_saved ||
+            ({1'b0, fetch_k_base} - {1'b0, tile_base_saved}) >=
+                {1'b0, k_len_saved})
+          $fatal(1, "k_tile_controller_p2 invalid global K request");
+      end
 
     end
 
