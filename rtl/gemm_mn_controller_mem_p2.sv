@@ -12,13 +12,23 @@
 //   3. Route clear_pipe from K Controller to systolic_array_p2.
 //   4. Preserve original P5 single-K-Tile behavior.
 //
+// P6-B2-4:
+//   K_TILE_SIZE=0 (default): original single-K invocation and timing.
+//   K_TILE_SIZE>0: automatically partition total k_len into even K segments.
+//   Each M/N output keeps its INT32 sums across segments and writes ONCE.
+//   k_base stays local to a segment; fetch_k_base is the global Reader index.
+//   All data must already be accessible through that global index. This is
+//   not a Host/preload handshake or a larger-Cin convolution address mapper.
+//   Existing supported shape is retained: 1<=M<=64, N=8, positive even K.
+//
 // mem_clear_acc/mem_feed_valid are observation outputs,
 // not Reader requests.
 
 module gemm_mn_controller_mem_p2
   import pkg_accelerator::*;
 #(
-  parameter int ADDR_WIDTH = 16
+  parameter int ADDR_WIDTH = 16,
+  parameter int K_TILE_SIZE = 0
 )(
   input logic clk,
   input logic rst_n,
@@ -68,6 +78,24 @@ module gemm_mn_controller_mem_p2
   logic [ADDR_WIDTH-1:0] m_idx, n_tile_idx, write_word_idx;
   logic [ADDR_WIDTH-1:0] m_len_saved, n_len_saved;
   logic [ADDR_WIDTH-1:0] k_len_saved, n_tiles_saved;
+
+  localparam bit USE_K_TILING = (K_TILE_SIZE != 0);
+  localparam logic [ADDR_WIDTH-1:0] K_TILE_CAP = ADDR_WIDTH'(K_TILE_SIZE);
+
+  // k_remaining includes the current segment. Register the segment length so
+  // the K Controller samples a stable length/base at each G_START_K.
+  logic [ADDR_WIDTH-1:0] k_tile_base_reg, k_remaining, k_segment_len;
+  logic [ADDR_WIDTH-1:0] k_after_segment;
+  assign k_after_segment = k_remaining - k_segment_len;
+
+  function automatic logic [ADDR_WIDTH-1:0] segment_length(
+    input logic [ADDR_WIDTH-1:0] remaining
+  );
+    if (USE_K_TILING && remaining > K_TILE_CAP)
+      segment_length = K_TILE_CAP;
+    else
+      segment_length = remaining;
+  endfunction
 
   // -------------------------------------------------------------------------
   // K Controller Signals
@@ -130,21 +158,23 @@ module gemm_mn_controller_mem_p2
   // -------------------------------------------------------------------------
   // K Tile Controller
   //
-  // Each new M/N output tile starts a new accumulation.
-  // P6-A multi-K-Tile continuation is verified independently.
+  // First segment of each M/N output starts a new accumulation. Subsequent
+  // segments clear only the pipeline, with global fetch and local PE indexing.
   // -------------------------------------------------------------------------
 
   k_tile_controller_p2 #(
-    .K_ADDR_WIDTH(ADDR_WIDTH)
+    .K_ADDR_WIDTH(ADDR_WIDTH),
+    .USE_K_TILE_BASE(USE_K_TILING)
   ) u_kctrl (
 
     .clk(clk),
     .rst_n(rst_n),
 
     .start(k_start),
-    .clear_acc_on_start(1'b1),
+    .clear_acc_on_start(!USE_K_TILING || k_tile_base_reg == 0),
 
-    .k_len(k_len_saved),
+    .k_len(USE_K_TILING ? k_segment_len : k_len_saved),
+    .k_tile_base(k_tile_base_reg),
 
     .k_base(k_base),
     .fetch_k_base(fetch_k_base),
@@ -204,7 +234,9 @@ module gemm_mn_controller_mem_p2
 
   // -------------------------------------------------------------------------
   // Outer M/N Scheduling
-  // Original P5 scheduling preserved.
+  // Original P5 scheduling preserved when K_TILE_SIZE=0. A continuation uses
+  // G_WAIT_K -> G_START_K: the inner controller leaves S_DONE for S_IDLE on
+  // that same edge, and accepts the new start on the following clock.
   // -------------------------------------------------------------------------
 
   always_ff @(posedge clk or negedge rst_n) begin
@@ -221,6 +253,9 @@ module gemm_mn_controller_mem_p2
       n_len_saved <= '0;
       k_len_saved <= '0;
       n_tiles_saved <= '0;
+      k_tile_base_reg <= '0;
+      k_remaining <= '0;
+      k_segment_len <= '0;
 
     end else begin
 
@@ -233,6 +268,9 @@ module gemm_mn_controller_mem_p2
             m_len_saved <= m_len;
             n_len_saved <= n_len;
             k_len_saved <= k_len;
+            k_tile_base_reg <= '0;
+            k_remaining <= USE_K_TILING ? k_len : '0;
+            k_segment_len <= USE_K_TILING ? segment_length(k_len) : '0;
 
             n_tiles_saved <=
                 (int'(n_len) + ARRAY_COLS - 1) / ARRAY_COLS;
@@ -255,14 +293,27 @@ module gemm_mn_controller_mem_p2
 
         G_WAIT_K: begin
 
-          if (k_done)
-            state <= G_WRITE;
+          if (k_done) begin
+            if (USE_K_TILING && k_remaining > k_segment_len) begin
+              k_tile_base_reg <= k_tile_base_reg + k_segment_len;
+              k_remaining <= k_after_segment;
+              k_segment_len <= segment_length(k_after_segment);
+              state <= G_START_K;
+            end else begin
+              // Never expose an intermediate K-segment snapshot as a write.
+              state <= G_WRITE;
+            end
+          end
 
         end
 
         G_WRITE: begin
 
           write_word_idx <= write_word_idx + 1'b1;
+          // The next M/N output starts at K=0 and clears its accumulators.
+          k_tile_base_reg <= '0;
+          k_remaining <= USE_K_TILING ? k_len_saved : '0;
+          k_segment_len <= USE_K_TILING ? segment_length(k_len_saved) : '0;
 
           if (n_tile_idx == n_tiles_saved - 1'b1) begin
 
@@ -312,6 +363,26 @@ module gemm_mn_controller_mem_p2
   // -------------------------------------------------------------------------
 
   // synthesis translate_off
+
+  initial begin
+    if (ADDR_WIDTH < 2 || ADDR_WIDTH > 30 || K_TILE_SIZE < 0 ||
+        (USE_K_TILING && (K_TILE_SIZE < 2 || (K_TILE_SIZE % 2) != 0 ||
+                         K_TILE_SIZE > ((64'd1 << ADDR_WIDTH) - 1))))
+      $fatal(1, "gemm_mn_controller_mem_p2: K_TILE_SIZE must be 0 or a representable positive even size");
+  end
+
+  always @(posedge clk) begin
+    if (rst_n && USE_K_TILING) begin
+      if (k_start && (k_segment_len == 0 || k_segment_len[0] ||
+                      k_segment_len > k_remaining ||
+                      k_segment_len > K_TILE_CAP ||
+                      ({1'b0,k_tile_base_reg} + {1'b0,k_remaining}) !=
+                          {1'b0,k_len_saved}))
+        $fatal(1, "gemm_mn_controller_mem_p2: invalid K segment bookkeeping");
+      if (write_valid && k_remaining != k_segment_len)
+        $fatal(1, "gemm_mn_controller_mem_p2: attempted intermediate K write");
+    end
+  end
 
   always @(posedge clk) begin
 
