@@ -1,0 +1,37 @@
+{
+  "software_only": true,
+  "HDL_simulation": "NOT RUN",
+  "mem_hashes_checked": 18,
+  "post_vectors_checked": 256,
+  "totals": {
+    "tiles": 2352,
+    "segments": 50176,
+    "pair_feed": 11239424,
+    "raw_writes": 37632,
+    "post_writes": 37632,
+    "readbacks": 301056,
+    "activation_bytes": 22478848,
+    "weight_words": 22478848,
+    "padding_scalars": 850944,
+    "changed_cache_lanes": 234225,
+    "int32_values": 301056
+  },
+  "phases": [
+    {
+      "mode": 0,
+      "outputs": 100352,
+      "negative_outputs": 44674
+    },
+    {
+      "mode": 1,
+      "outputs": 100352,
+      "negative_outputs": 0
+    },
+    {
+      "mode": 2,
+      "outputs": 100352,
+      "negative_outputs": 0
+    }
+  ],
+  "final_int8_outputs": 100352
+}
